@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web: 
+    build: 
+      context: . #since we changed the dockerfile name we have to do this ; otherwise build: . would have been enough
+      dockerfile: dockerfile.dev 
+    ports:
+      - "5173:5173"
+    volumes:
+      - /app/node_modules #exclude node_modules from refrencing 
+      - .:/app  # refrence the current working directory to /app directory of the container
+  tests: 
+    build: 
+      context: . 
+      dockerfile: dockerfile.dev 
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run" ,"test"]
